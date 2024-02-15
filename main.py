@@ -2,7 +2,7 @@ import customtkinter as ctk
 from time import time, sleep
 from PIL import Image, ImageTk
 
-ctk.set_appearance_mode("dark")
+ctk.set_appearance_mode("light")
 ctk.set_default_color_theme("green")
 
 moneys = [10000, 5000, 1000, 500, 100, 50, 10, 5, 1]
@@ -23,8 +23,8 @@ class MoneyFrame(ctk.CTkFrame):
             )
             self.money_image_label = ctk.CTkLabel(self, text="", image=self.money_image)
         self.money_image_label.grid(row=1, column=0, sticky="ew")
-        self.maisuu_input = ctk.CTkTextbox(self, width=100, height=20)
-        self.maisuu_input.grid(row=2, column=0, sticky="ew")
+        self.maisuu_input = ctk.CTkTextbox(self, width=60, height=55)
+        self.maisuu_input.grid(row=2, column=0)  # , sticky="ew")
 
     def get_maisuu(self):
         maisuu = 0
@@ -44,16 +44,25 @@ class Main(ctk.CTk):
 
         self.living = True
         self.title("おかね の けいさんアプリ")
-        self.geometry("1280x768")
+        self.geometry("1023x768")
 
         self.money_parent = ctk.CTkFrame(self)
         self.money_frames = {}
+
         offset = 0
         for money in moneys:
             self.money_frames.setdefault(money, MoneyFrame(self.money_parent, money, f"images/{money}.png", offset))
             self.money_frames[money].grid(row=0, column=offset)
             offset += 1
-        self.money_parent.grid(row=0, column=0)
+        self.money_parent.grid(row=0, column=0, sticky="ew")
+
+        self.anzan_parent = ctk.CTkFrame(self)
+        self.anzan_title = ctk.CTkLabel(self.anzan_parent, width=300, height=50, text="ごうけい いくら だとおもう？ ==> ")
+        self.anzan_title.grid(row=0, column=0)
+        self.anzan_input = ctk.CTkTextbox(self, width=60, height=55)
+        self.anzan_input.grid(row=0, column=1, sticky="ew")
+
+        self.anzan_parent.grid(row=1, column=0)
 
         self.goukei_parent = ctk.CTkFrame(self)
 
@@ -63,7 +72,7 @@ class Main(ctk.CTk):
         self.goukei_kingaku = ctk.CTkLabel(self.goukei_parent, height=50, text="0円")
         self.goukei_kingaku.grid(row=0, column=1, sticky="ew")
 
-        self.goukei_parent.grid(row=1, column=0, sticky="ew")
+        self.goukei_parent.grid(row=2, column=0, sticky="ew")
 
     def goukei(self):
         goukei = 0
